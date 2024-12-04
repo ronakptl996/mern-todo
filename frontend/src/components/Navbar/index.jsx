@@ -2,19 +2,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { setIsLoggedIn } from "../../features/auth/authSlice";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const { isAuth } = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    try {
+      let response = await fetch(`/api/user/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success(response.message);
+        dispatch(setIsLoggedIn(false));
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
+  };
 
   return (
     <nav className="bg-white border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a
-          href="https://flowbite.com/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
+        <a className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-8"
@@ -62,13 +81,13 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/login"
+                  <button
+                    onClick={handleLogout}
                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                     aria-current="page"
                   >
                     Logout
-                  </Link>
+                  </button>
                 </li>
               </>
             ) : (

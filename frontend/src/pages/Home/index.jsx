@@ -9,6 +9,7 @@ import EditTaskModal from "../../components/Modal/EditTask";
 const Home = () => {
   const dispatch = useDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [status, setStatus] = useState("");
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [editData, setEditData] = useState({});
 
@@ -100,6 +101,7 @@ const Home = () => {
           "Content-Type": "application/json",
         },
         method: "POST",
+        body: JSON.stringify({ status }),
         credentials: "include",
       });
 
@@ -121,12 +123,27 @@ const Home = () => {
 
   useEffect(() => {
     fetchTaskDetails();
-  }, []);
+  }, [status]);
 
   return (
     <div className="max-w-screen-xl mx-auto p-4">
       <div className="flex mb-8">
-        <div className="ml-auto">
+        <div className="ml-auto flex items-start">
+          <div className="mr-1">
+            <select
+              id="small"
+              className="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option selected disabled>
+                Choose a Status
+              </option>
+              <option value="">All</option>
+              <option value="to-do">To Do</option>
+              <option value="progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
           <button
             onClick={handleOpenModal}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
