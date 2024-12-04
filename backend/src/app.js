@@ -18,4 +18,8 @@ app.use(
 
 app.use(express.json());
 
+import taskRoute from "./routes/task.route.js";
+
+app.use("/api", taskRoute);
+
 export { app };
