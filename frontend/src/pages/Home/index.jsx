@@ -157,14 +157,17 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
         {todos &&
           todos.length > 0 &&
           todos.map((el) => (
-            <div className="bg-blue-500 p-3 h-32 rounded-lg" key={el._id}>
+            <div
+              className="bg-blue-500 p-3 h-auto rounded-lg relative"
+              key={el._id}
+            >
               <h2 className="text-xl font-semibold">{el.title}</h2>
-              <p>{truncateString(el.description, 200)}</p>
-              <div className="flex mt-1">
+              <p className="h-32">{truncateString(el.description, 100)}</p>
+              <div className="flex mt-1 absolute bottom-3 right-2">
                 <button
                   onClick={() => editTask(el)}
                   className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
