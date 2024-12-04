@@ -9,6 +9,10 @@ const taskSchema = new Schema(
       enum: ["to-do", "progress", "done"],
       default: "to-do",
     },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
